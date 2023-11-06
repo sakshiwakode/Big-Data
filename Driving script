@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo ".......Starting Script................."
+
+#Main table
+#sqoop import --options-file connectionDetails.txt --query "select * from emp where \$CONDITIONS" -m 1 --target-dir /EmpTable
+#load data inpath '/EmpTable/part-m-*' into table emp;
+
+
+echo "--------import new table---------------"
+sqoop import --options-file connectionDetails.txt --query "select * from emp where \$CONDITIONS" -m 1 --delete-target-dir --target-dir /EmploadDir
+
+echo "===========Table operations =========="
+
+hive -f load_table.hql
+
+
+echo "======inserting table into HBASE ======"
+
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=, -Dimporttsv.columns=HBASE_ROW_KEY,emp_info:ename,emp_info:esal empTab hdfs://localhost:8020/user/hive/warehouse/batch1.db/emp/*
+
+
