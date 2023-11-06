@@ -1,0 +1,42 @@
+hive -f create_hive_table.hql
+
+
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "show databases"
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "use big_data"
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "show tables"
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "drop table if exists T1 "
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "create table if not exists T1(id int,name varchar(20)) "
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "insert into T1 values(1,'radha'),(2,'krishna'),(3,'sagar') "
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "select * from T1"
+
+
+sqoop import --connect jdbc:mysql://localhost:3306/big_data --username root --password root --table T1 --target-dir /dir_target --delete-target-dir --hive-database hive123 --hive-table hive_table --hive-import --hive-overwrite --num-mappers 1 --outdir out_dir_assignment
+
+
+hive -f  hive_table_select.hql
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "insert into T1 values(4,'rani'),(5,'krishna2'),(6,'shivani') "
+
+
+sqoop eval --connect jdbc:mysql://localhost:3306/big_data --username root --password root --query "update T1 set name='mansi' where id=1" 
+
+
+
+sqoop import --connect jdbc:mysql://localhost:3306/big_data --username root --password root --table T1 --target-dir /dir_target --delete-target-dir --hive-database hive123 --hive-table hive_table --hive-import --hive-overwrite --num-mappers 1 --outdir out_dir_assignment
+
+
+hive -f hive_table_select2.hql
+
