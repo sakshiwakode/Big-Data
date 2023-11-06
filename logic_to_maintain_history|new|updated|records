@@ -1,0 +1,40 @@
+-- create a table
+CREATE TABLE employee_old (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  dept TEXT,
+  sal int
+);
+INSERT INTO employee_old VALUES (1, 'Ryan', 'IT', 8000);
+INSERT INTO employee_old VALUES (2, 'Joanna', 'Mech', 5000);
+INSERT INTO employee_old VALUES (3, 'Vijay', 'Admin', 6000);
+INSERT INTO employee_old VALUES (4, 'Aditya', 'manager', 7000);
+CREATE TABLE employee_new (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  dept TEXT,
+  sal int
+);
+INSERT INTO employee_new VALUES (2, 'Joanna_new', 'Mech', 5000);
+INSERT INTO employee_new VALUES (7, 'Rahul', 'Admin', 6000);
+INSERT INTO employee_new VALUES (8, 'Sanket', 'manager', 7000);
+
+select employee_old.* from employee_old LEFT join employee_new  on 
+employee_old.id = employee_new.id where employee_new.id is null;
+
+select employee_new.* from employee_new LEFT join employee_old  on 
+employee_old.id = employee_new.id; 
+
+==============================================================================
+
+#Updated
+#select employee_new.* from employee_old join employee_new on 
+#employee_old.id = employee_new.id;
+
+#History
+#select employee_old.* from employee_old LEFT join employee_new on 
+#employee_old.id = employee_new.id where employee_new.id is null; 
+
+#new
+#select employee_new.* from employee_new LEFT join employee_old on 
+#employee_old.id = employee_new.id where employee_old.id is null;
