@@ -1,5 +1,5 @@
 --connect
-jdbc:mysql://localhost:3306/DB1
+jdbc:mysql://localhost:3306/Big_Data
 --username
 root
 --password
